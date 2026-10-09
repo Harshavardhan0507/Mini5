@@ -1,0 +1,217 @@
+[
+  {
+    "id": "early_blight",
+    "commonCrops": ["Tomato", "Potato", "Eggplant"],
+    "keywords": ["spot", "brown", "concentric", "rings", "target", "yellowing", "blight", "early blight", "tomato blight", "ఆకు మచ్చ", "మచ్చలు", "తెగులు", "ಚುಕ್ಕೆ"],
+    "name": {
+      "en": "Early Blight (Alternaria solani)",
+      "te": "ఆకు మచ్చల తెగులు / ఎర్లీ బ్లైట్ (Early Blight)",
+      "kn": "ಮುಂಗಾರು ಬ್ಲೈಟ್ / ಎಲೆ ಚುಕ್ಕೆ ರೋಗ (Early Blight)",
+      "hi": "अगेती झुलसा / पत्ती धब्बा रोग (Early Blight)"
+    },
+    "severity": "Moderate to High",
+    "symptoms": {
+      "en": "Circular brown or black spots with concentric rings forming a 'target board' pattern on older leaves, surrounded by yellow halo.",
+      "te": "పాత ఆకులపై గుండ్రని నల్లటి లేదా గోధుమ రంగు మచ్చలు, వాటి చుట్టూ పసుపు రంగు వలయాలు కనిపిస్తాయి. ఆకులు ఎండి రాలిపోతాయి.",
+      "kn": "ಕೆಳಭಾಗದ ಎಲೆಗಳ ಮೇಲೆ ವೃತ್ತಾಕಾರದ ಕಂದು ಚುಕ್ಕೆಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ ಮತ್ತು ಎಲೆಯ ಸುತ್ತಲೂ ಹಳದಿ ಬಣ್ಣಕ್ಕೆ ತಿರುಗುತ್ತದೆ.",
+      "hi": "निचली पत्तियों पर गोल भूरे या काले छल्लेदार धब्बे बनते हैं और पत्तियां पीली पड़कर सूखने लगती हैं।"
+    },
+    "causes": {
+      "en": "Fungal pathogen thriving in high humidity, warm temperatures (24-29°C), and wet foliage.",
+      "te": "అధిక తేమ, వేడి వాతావరణం మరియు ఆకులపై ఎక్కువసేపు నీరు నిలవడం వల్ల ఈ శిలీంధ్రం వ్యాపిస్తుంది.",
+      "kn": "ಹೆಚ್ಚಿನ ತೇವಾಂಶ ಮತ್ತು ಬೆಚ್ಚನೆಯ ವಾತಾವರಣದಿಂದ ಉಂಟಾಗುವ ಶಿಲೀಂಧ್ರ ರೋಗ.",
+      "hi": "अधिक नमी और पत्तियों पर पानी रुकने के कारण फफूंद का संक्रमण।"
+    },
+    "organicRemedy": {
+      "en": "Sour Buttermilk & Turmeric Concoction: Dilute 100ml sour buttermilk + 1 liter water + 5g turmeric powder. Spray on foliage every 5-7 days. The lactic acid bacteria inhibit fungal spore germination.",
+      "te": "పుల్లటి మజ్జిగ & పసుపు ద్రావణం (ఇంటి చిట్కా): 100 మి.లీ పుల్లటి మజ్జిగను 1 లీటరు నీటిలో కొద్దిగా పసుపు (5 గ్రాములు) కలిపి ఆకులపై పిచికారీ చేయండి. లేదా 200 గ్రాముల వేపాకులను మరిగించిన కషాయాన్ని చల్లార్చి 5 రోజుల వ్యవధిలో పిచికారీ చేయండి.",
+      "kn": "ಹುಳಿ ಮಜ್ಜಿಗೆ ಮತ್ತು ಅರಿಶಿನ ದ್ರಾವಣ (ಮನೆಮದ್ದು): 100 ಮಿಲಿ ಹುಳಿ ಮಜ್ಜಿಗೆಯನ್ನು 1 ಲೀಟರ್ ನೀರಿಗೆ 5 ಗ್ರಾಂ ಅರಿಶಿನ ಬೆರೆಸಿ ಸಿಂಪಡಿಸಿ. ಅಥವಾ ಬೇವಿನ ಎಲೆಗಳ ಕಷಾಯವನ್ನು ವಾರಕ್ಕೊಮ್ಮೆ ಸಿಂಪಡಿಸಿ ಶಿಲೀಂಧ್ರವನ್ನು ತಡೆಯಿರಿ.",
+      "hi": "खट्टी छाछ और हल्दी का घोल (घरेलू उपाय): 100 मिली खट्टी छाछ को 1 लीटर पानी में 5 ग्राम हल्दी मिलाकर पत्तियों पर छिड़कें। या 200 ग्राम नीम की पत्तियों का काढ़ा बनाकर हर 5-7 दिन में छिड़कें।"
+    },
+    "shopTreatment": {
+      "en": "Copper Oxychloride 50% WP or Mancozeb 75% WP contact protective fungicide.",
+      "te": "కాపర్ ఆక్సిక్లోరైడ్ 50% WP లేదా మాంకోజెబ్ 75% WP శిలీంద్ర సంహారిణి (షాప్ మందు).",
+      "kn": "ಕಾಪರ್ ಆಕ್ಸಿಕ್ಲೋರೈಡ್ 50% WP ಅಥವಾ ಮ್ಯಾಂಕೋಜೆಬ್ 75% WP ಶಿಲೀಂಧ್ರನಾಶಕ.",
+      "hi": "कॉपर ऑक्सीक्लोराइड 50% WP या मैंकोजेब 75% WP कवकनाशी।"
+    },
+    "dosagePercentage": {
+      "en": "0.25% to 0.30% concentration (Mix 2.5g to 3g per 1 Liter of water. For 1 acre: 500g in 200 Liters water).",
+      "te": "0.25% నుండి 0.30% శాతం గాఢత (1 లీటరు నీటికి 2.5 నుండి 3 గ్రాముల పొడి. ఎకరాకు 200 లీటర్ల నీటిలో 500 గ్రాములు కలిపి పిచికారీ చేయాలి).",
+      "kn": "0.25% ರಿಂದ 0.30% ಸಾಂದ್ರತೆ (1 ಲೀಟರ್ ನೀರಿಗೆ 2.5 ರಿಂದ 3 ಗ್ರಾಂ ಪುಡಿ. ಎಕರೆಗೆ 200 ಲೀಟರ್ ನೀರಿಗೆ 500 ಗ್ರಾಂ ಬೆರೆಸಿ).",
+      "hi": "0.25% से 0.30% सांद्रता (प्रति 1 लीटर पानी में 2.5 से 3 ग्राम। प्रति एकड़ 200 लीटर पानी में 500 ग्राम घोलें)।"
+    },
+    "recommendedProductIds": ["prod-1", "prod-3"]
+  },
+  {
+    "id": "powdery_mildew",
+    "commonCrops": ["Chili", "Grapes", "Cucurbits", "Okra", "Mango"],
+    "keywords": ["white", "powder", "dust", "coating", "mildew", "powdery", "బూడిద", "బూడిద తెగులు", "ಬೂದಿ ರೋಗ", "सफेद चूर्ण"],
+    "name": {
+      "en": "Powdery Mildew (Erysiphe / Leveillula)",
+      "te": "బూడిద తెగులు (Powdery Mildew)",
+      "kn": "ಬೂದಿ ರೋಗ (Powdery Mildew)",
+      "hi": "चूर्णिल आसिता / बबूला रोग (Powdery Mildew)"
+    },
+    "severity": "Moderate",
+    "symptoms": {
+      "en": "White talcum-like powdery fungal coating appearing on the upper or lower surfaces of leaves and young shoots.",
+      "te": "ఆకుల పైభాగం లేదా అడుగున తెల్లటి బూడిద వంటి పిండి పొర కనిపిస్తుంది. ఆకులు ముడుచుకుపోయి పాలిపోతాయి.",
+      "kn": "ಎಲೆಗಳ ಮೇಲೆ ಮತ್ತು ಕಾಂಡದ ಮೇಲೆ ಬಿಳಿ ಬೂದಿಯಂತಹ ಪುಡಿ ಹರಡಿಕೊಳ್ಳುತ್ತದೆ. ಎಲೆಗಳು ಸುರುಟಿಕೊಳ್ಳುತ್ತವೆ.",
+      "hi": "पत्तियों की सतह पर सफेद पाउडर जैसा फफूंद का आवरण दिखता है, जिससे पत्तियां मुड़कर सूख जाती हैं।"
+    },
+    "causes": {
+      "en": "Fungal spores favored by dry weather with moderate humidity and shaded canopy.",
+      "te": "పొడి వాతావరణం, తక్కువ గాలి ప్రసరణ మరియు నీడ ఉన్న ప్రదేశాలలో శిలీంధ్ర కణాలు త్వరగా వ్యాపిస్తాయి.",
+      "kn": "ಒಣ ಹವೆಯ ವಾತಾವರಣ ಮತ್ತು ಕಳಪೆ ಗಾಳಿ ಬೆಳಕಿನಿಂದ ಈ ರೋಗ ವೇಗವಾಗಿ ಹರಡುತ್ತದೆ.",
+      "hi": "शुष्क और कम हवा वाले मौसम में फंगल बीजाणुओं का तेजी से फैलना।"
+    },
+    "organicRemedy": {
+      "en": "Baking Soda & Mild Soap Wash: Mix 5g baking soda + 2ml liquid soap/detergent in 1 liter water. The alkaline pH breaks down the white fungal mycelium. Cold-Pressed Neem Oil (5ml/L) can also be sprayed in the evening.",
+      "te": "వంట సోడా ద్రావణం (సేంద్రీయ ఇంటి చిట్కా): 1 లీటరు నీటికి 5 గ్రాముల వంట సోడా (Baking Soda) + 2 మి.లీ సబ్బు నీరు కలిపి ఆకులపై పిచికారీ చేయండి. దీని క్షార గుణం తెల్లటి బూడిద శిలీంధ్రాన్ని వెంటనే చంపేస్తుంది. లేదా స్వచ్ఛమైన వేపనూనె (5 మి.లీ/లీ) పిచికారీ చేయండి.",
+      "kn": "ಅಡುಗೆ ಸೋಡಾ ಮಿಶ್ರಣ (ಮನೆಮದ್ದು): 1 ಲೀಟರ್ ನೀರಿಗೆ 5 ಗ್ರಾಂ ಅಡುಗೆ ಸೋಡಾ ಮತ್ತು 2 ಮಿಲಿ ದ್ರವ ಸಾಬೂನು ಬೆರೆಸಿ ಸಿಂಪಡಿಸಿ. ಇದು ಬಿಳಿ ಬೂದಿ ಶಿಲೀಂಧ್ರವನ್ನು ತಡೆಯುತ್ತದೆ. ಅಥವಾ ಸಂಜೆ ವೇಳೆಯಲ್ಲಿ ಬೇವಿನ ಎಣ್ಣೆ (5 ಮಿಲಿ/ಲೀ) ಸಿಂಪಡಿಸಿ.",
+      "hi": "बेकिंग सोडा का घरेलू घोल: 1 लीटर पानी में 5 ग्राम बेकिंग सोडा + 2 मिली शैम्पू/साबुन का घोल मिलाकर छिड़कें। यह फफूंद को खत्म करता है। अथवा शाम के समय नीम का तेल (5 मिली/लीटर) छिड़कें।"
+    },
+    "shopTreatment": {
+      "en": "Sulphur 80% WDG or Hexaconazole 5% SC systemic fungicide.",
+      "te": "సల్ఫర్ 80% WDG లేదా హెక్సాకొనజోల్ 5% SC సిస్టమిక్ శిలీంద్రనాశిని (షాప్ మందు).",
+      "kn": "ಸಲ್ಫರ್ 80% WDG ಅಥವಾ ಹೆಕ್ಸಾಕೊನಾಜೋಲ್ 5% SC ಶಿಲೀಂಧ್ರನಾಶಕ.",
+      "hi": "सल्फर 80% WDG या हेक्साकोनाज़ोल 5% SC कवकनाशी।"
+    },
+    "dosagePercentage": {
+      "en": "0.30% concentration for Sulphur (Mix 3g per 1 Liter of water) OR 0.10% concentration for Hexaconazole (Mix 2ml per 1 Liter of water).",
+      "te": "సల్ఫర్ కొరకు 0.30% గాఢత (1 లీటరు నీటికి 3 గ్రాములు) లేదా హెక్సాకొనజోల్ కొరకు 0.10% గాఢత (1 లీటరు నీటికి 2 మి.లీ). ఎకరాకు 600 గ్రాములు/400 మి.లీ 200 లీటర్ల నీటిలో కలపాలి.",
+      "kn": "ಸಲ್ಫರ್ ಗಾಗಿ 0.30% ಸಾಂದ್ರತೆ (ಲೀಟರ್ ನೀರಿಗೆ 3 ಗ್ರಾಂ) ಅಥವಾ ಹೆಕ್ಸಾಕೊನಾಜೋಲ್ ಗಾಗಿ 0.10% ಸಾಂದ್ರತೆ (ಲೀಟರ್ ನೀರಿಗೆ 2 ಮಿಲಿ).",
+      "hi": "सल्फर के लिए 0.30% सांद्रता (3 ग्राम प्रति लीटर पानी) या हेक्साकोनाज़ोल के लिए 0.10% सांद्रता (2 मिली प्रति लीटर पानी)।"
+    },
+    "recommendedProductIds": ["prod-8", "prod-6", "prod-2"]
+  },
+  {
+    "id": "leaf_curl_virus",
+    "commonCrops": ["Chili", "Tomato", "Papaya", "Cotton"],
+    "keywords": ["curl", "curling", "crinkling", "vector", "whitefly", "stunted", "ముడత", "ఆకు ముడత", "ಎಲೆ ಮುದುರುವಿಕೆ", "पत्ती मरोड़"],
+    "name": {
+      "en": "Chili & Tomato Leaf Curl Virus",
+      "te": "ఆకు ముడత తెగులు / జెమిని వైరస్ (Leaf Curl)",
+      "kn": "ಎಲೆ ಮುದುರುವ ರೋಗ (Leaf Curl)",
+      "hi": "पत्ती मरोड़ रोग / लीफ कर्ल (Leaf Curl Virus)"
+    },
+    "severity": "High",
+    "symptoms": {
+      "en": "Upward or downward rolling and curling of leaves, thickened veins, stunted plant growth, and reduced flower setting.",
+      "te": "ఆకులు పైకి లేదా కిందికి ముడుచుకుపోతాయి, నరాలు లావుగా మారతాయి, మొక్క ఎదుగుదల ఆగిపోతుంది మరియు పూత రాలిపోతుంది.",
+      "kn": "ಎಲೆಗಳು ಮೇಲಕ್ಕೆ ಅಥವಾ ಕೆಳಕ್ಕೆ ಮುದುರಿಕೊಳ್ಳುತ್ತವೆ, ಗಿಡದ ಬೆಳವಣಿಗೆ ಕುಂಠಿತಗೊಳ್ಳುತ್ತದೆ.",
+      "hi": "पत्तियां ऊपर या नीचे की ओर मुड़ जाती हैं, नसें मोटी हो जाती हैं और पौधे का विकास रुक जाता है।"
+    },
+    "causes": {
+      "en": "Viral infection transmitted by sucking pests like Whiteflies (Bemisia tabaci) and Thrips.",
+      "te": "తెల్లదోమ (Whitefly) మరియు తామర పురుగులు (Thrips) రసం పీల్చడం ద్వారా ఈ వైరస్‌ను వ్యాపింపజేస్తాయి.",
+      "kn": "ಬಿಳಿ ನೊಣ (Whitefly) ಮತ್ತು ಹೇನುಗಳು ಈ ವೈರಸ್ ರೋಗವನ್ನು ಗಿಡದಿಂದ ಗಿಡಕ್ಕೆ ಹರಡುತ್ತವೆ.",
+      "hi": "सफेद मक्खी और थ्रिप्स जैसे रस चूसने वाले कीटों द्वारा यह वायरस फैलता है।"
+    },
+    "organicRemedy": {
+      "en": "Garlic-Chili Herbal Spray & Yellow Traps: Grind 50g garlic cloves + 25g spicy green chilies in 1 liter water, strain and spray to repel whiteflies. Install 10 yellow sticky traps per acre to eliminate insect vectors organically.",
+      "te": "వెల్లుల్లి-పచ్చిమిర్చి ఘాటైన కషాయం & పసుపు అట్టలు: 50 గ్రాముల వెల్లుల్లి + 25 గ్రాముల పచ్చిమిర్చి రుబ్బి 1 లీటరు నీటిలో కలిపి వడకట్టి పిచికారీ చేయండి. తెల్లదోమలను సహజంగా ఆకర్షించి చంపడానికి ఎకరాకు 10 పసుపు రంగు జిగురు అట్టలను అమర్చండి.",
+      "kn": "ಬೆಳ್ಳುಳ್ಳಿ-ಹಸಿಮೆಣಸಿನಕಾಯಿ ಕಷಾಯ (ಮನೆಮದ್ದು): 50 ಗ್ರಾಂ ಬೆಳ್ಳುಳ್ಳಿ ಮತ್ತು 25 ಗ್ರಾಂ ಹಸಿಮೆಣಸಿನಕಾಯಿ ರುಬ್ಬಿ 1 ಲೀಟರ್ ನೀರಿಗೆ ಬೆರೆಸಿ ಸಿಂಪಡಿಸಿ. ಬಿಳಿ ನೊಣ ನಿಯಂತ್ರಣಕ್ಕೆ ಹಳದಿ ಜಿಗುಟು ಬಲೆಗಳನ್ನು ಅಳವಡಿಸಿ.",
+      "hi": "लहसुन-मिर्च का देसी काढ़ा: 50 ग्राम लहसुन और 25 ग्राम तीखी मिर्च पीसकर 1 लीटर पानी में घोलकर छिड़कें। सफेद मक्खी को रोकने के लिए प्रति एकड़ 10 पीले चिपचिपे ट्रैप लगाएं।"
+    },
+    "shopTreatment": {
+      "en": "Bio-Neem Supreme 10,000 PPM + NPK 19:19:19 water soluble fertilizer to stimulate recovery.",
+      "te": "బయో వేపనూనె (Neem Oil 10,000 PPM) + కొత్త చిగురు రావడానికి NPK 19:19:19 ఎరువు (షాప్ మందు).",
+      "kn": "ಬಯೋ ಬೇವಿನ ಎಣ್ಣೆ (Neem Oil 10,000 PPM) + ಹೊಸ ಚಿಗುರಿಗೆ NPK 19:19:19 ಗೊಬ್ಬರ.",
+      "hi": "बायो नीम ऑयल (10,000 PPM) + पौधों की वृद्धि के लिए NPK 19:19:19 उर्वरक।"
+    },
+    "dosagePercentage": {
+      "en": "Neem Oil: 0.40% to 0.50% concentration (4ml to 5ml per 1 Liter water) | NPK 19:19:19: 0.50% concentration (5g per 1 Liter water).",
+      "te": "వేపనూనె: 0.40% నుండి 0.50% శాతం గాఢత (1 లీటరు నీటికి 4 నుండి 5 మి.లీ) | NPK 19:19:19: 0.50% శాతం గాఢత (1 లీటరు నీటికి 5 గ్రాములు).",
+      "kn": "ಬೇವಿನ ಎಣ್ಣೆ: 0.40% ರಿಂದ 0.50% ಸಾಂದ್ರತೆ (1 ಲೀಟರ್ ನೀರಿಗೆ 4 ರಿಂದ 5 ಮಿಲಿ) | NPK 19:19:19: 0.50% ಸಾಂದ್ರತೆ (1 ಲೀಟರ್ ನೀರಿಗೆ 5 ಗ್ರಾಂ).",
+      "hi": "नीम तेल: 0.40% से 0.50% सांद्रता (प्रति लीटर 4 से 5 मिली) | NPK 19:19:19: 0.50% सांद्रता (प्रति लीटर 5 ग्राम)।"
+    },
+    "recommendedProductIds": ["prod-2", "prod-4", "prod-5"]
+  },
+  {
+    "id": "nitrogen_deficiency",
+    "commonCrops": ["Paddy", "Maize", "Wheat", "Vegetables", "Sugarcane"],
+    "keywords": ["yellow", "pale", "light green", "yellowing", "nitrogen", "urea", "నత్రజని లోపం", "పసుపు", "ಸಾರಜನಕ ಕೊರತೆ", "नाइट्रोजन की कमी"],
+    "name": {
+      "en": "Nitrogen / Macronutrient Deficiency",
+      "te": "నత్రజని (నైట్రోజన్) పోషక లోపం",
+      "kn": "ಸಾರಜನಕ (Nitrogen) ಪೋಷಕಾಂಶ ಕೊರತೆ",
+      "hi": "नाइट्रोजन / पोषक तत्व की कमी"
+    },
+    "severity": "Low to Moderate",
+    "symptoms": {
+      "en": "General uniform yellowing (chlorosis) beginning on older, lower leaves while newer leaves remain pale green. Thin stems and slow growth.",
+      "te": "కింది ముదురు ఆకులు మొత్తం పసుపు రంగులోకి మారుతాయి, మొక్క కాండం సన్నబడి ఎదుగుదల తగ్గుతుంది.",
+      "kn": "ಹಳೆಯ ಕೆಳಭಾಗದ ಎಲೆಗಳು ಹಳದಿ ಬಣ್ಣಕ್ಕೆ ತಿರುಗುತ್ತವೆ, ಬೆಳವಣಿಗೆ ನಿಧಾನವಾಗುತ್ತದೆ.",
+      "hi": "निचली पुरानी पत्तियां पूरी तरह पीली पड़ने लगती हैं और पौधे का विकास धीमा पड़ जाता है।"
+    },
+    "causes": {
+      "en": "Insufficient soil nitrogen, heavy rainfall leaching, or poor soil organic matter.",
+      "te": "నేలలో నత్రజని లోపం, సేంద్రీయ పదార్థం లేకపోవడం లేదా అధిక వర్షాల వల్ల ఎరువు కొట్టుకుపోవడం.",
+      "kn": "ಮಣ್ಣಿನಲ್ಲಿ ಸಾರಜನಕದ ಪ್ರಮಾಣ ಕಡಿಮೆಯಾಗಿರುವುದು.",
+      "hi": "मिट्टी में नाइट्रोजन और जैविक खाद की कमी होना।"
+    },
+    "organicRemedy": {
+      "en": "Jeevamrutham Soil Drench & Vermicompost: Ferment 1kg fresh cow dung + 1L cow urine + 100g jaggery + handful fertile soil in 10L water for 48 hours. Apply around root bases. Top dress with 500g rich Vermicompost per plant.",
+      "te": "జీవామృతం & వర్మీకంపోస్ట్ (సహజ సేంద్రీయ పరిష్కారం): 1 కేజీ ఆవు పేడ + 1 లీటరు ఆవు మూత్రం + 100 గ్రాముల బెల్లం 10 లీటర్ల నీటిలో కలిపి 2 రోజులు మురగబెట్టి మొక్కల మొదళ్లలో పోయండి. మొక్కకు 500 గ్రాముల వానపాముల ఎరువు (Vermicompost) వేయండి.",
+      "kn": "ಜೀವಾಮೃತ ಮತ್ತು ಎರೆಹುಳು ಗೊಬ್ಬರ (ಸಾವಯವ ಮನೆಮದ್ದು): 1 ಕೆಜಿ ಹಸುವಿನ ಸಗಣಿ + 1 ಲೀಟರ್ ಗಂಜಲ + 100 ಗ್ರಾಂ ಬೆಲ್ಲ 10 ಲೀಟರ್ ನೀರಿನಲ್ಲಿ 48 ಗಂಟೆ ನೆನೆಸಿ ಗಿಡದ ಬುಡಕ್ಕೆ ಹಾಕಿ. ಗಿಡಕ್ಕೆ 500 ಗ್ರಾಂ ಎರೆಹುಳು ಗೊಬ್ಬರ ಹಾಕಿ.",
+      "hi": "जीवामृत एवं वर्मीकम्पोस्ट (जैविक समाधान): 1 किलो गाय का ताजा गोबर + 1 लीटर गोमूत्र + 100 ग्राम गुड़ 10 लीटर पानी में 2 दिन सड़ाकर पौधों की जड़ों में डालें। प्रति पौधा 500 ग्राम वर्मीकम्पोस्ट खाद डालें।"
+    },
+    "shopTreatment": {
+      "en": "100% Water Soluble NPK 19:19:19 foliar spray + Organic Bio-Gold Compost.",
+      "te": "నీటిలో 100% కరిగే NPK 19:19:19 ఎరువు పిచికారీ + ఆర్గానిక్ వర్మీకంపోస్ట్ (షాప్ ఎరువు).",
+      "kn": "100% ನೀರಿನಲ್ಲಿ ಕರಗುವ NPK 19:19:19 ಗೊಬ್ಬರ + ವರ್ಮಿಕಂಪೋಸ್ಟ್.",
+      "hi": "100% जल घुलनशील NPK 19:19:19 उर्वरक + जैविक वर्मीकम्पोस्ट खाद।"
+    },
+    "dosagePercentage": {
+      "en": "0.50% to 0.75% concentration for foliar spray (Mix 5g to 7.5g per 1 Liter of water. For 1 acre: 1kg in 200 Liters water).",
+      "te": "0.50% నుండి 0.75% శాతం గాఢత (1 లీటరు నీటికి 5 నుండి 7.5 గ్రాములు. ఎకరాకు 200 లీటర్ల నీటిలో 1 కేజీ కలిపి ఆకులపై పిచికారీ చేయాలి).",
+      "kn": "0.50% ರಿಂದ 0.75% ಸಾಂದ್ರತೆ (1 ಲೀಟರ್ ನೀರಿಗೆ 5 ರಿಂದ 7.5 ಗ್ರಾಂ. ಎಕರೆಗೆ 200 ಲೀಟರ್ ನೀರಿಗೆ 1 ಕೆಜಿ ಬೆರೆಸಿ).",
+      "hi": "0.50% से 0.75% सांद्रता (प्रति लीटर 5 से 7.5 ग्राम। प्रति एकड़ 200 लीटर पानी में 1 किलो घोलें)।"
+    },
+    "recommendedProductIds": ["prod-4", "prod-7"]
+  },
+  {
+    "id": "zinc_deficiency",
+    "commonCrops": ["Paddy (Rice)", "Maize", "Citrus", "Cotton"],
+    "keywords": ["khaira", "zinc", "interveinal", "bronzing", "rust spots", "జింక్ లోపం", "ఖైరా తెగులు", "ಸತು ಕೊರತೆ", "जिंक की कमी", "खैरा रोग"],
+    "name": {
+      "en": "Zinc Deficiency / Khaira Disease in Paddy",
+      "te": "జింక్ పోషక లోపం / వరిలో ఖైరా తెగులు (Khaira Disease)",
+      "kn": "ಸತುವಿನ ಕೊರತೆ / ಭತ್ತದ ಖೈರಾ ರೋಗ (Zinc Deficiency)",
+      "hi": "जिंक की कमी / धान का खैरा रोग (Khaira Disease)"
+    },
+    "severity": "Moderate to High",
+    "symptoms": {
+      "en": "Rusty brown spots appearing along leaf veins, chlorosis in young leaves, and severe stunting in paddy tillers.",
+      "te": "వరి ఆకులపై తుప్పు రంగు వంటి గోధుమ మచ్చలు ఏర్పడతాయి, పిలకల సంఖ్య తగ్గుతుంది మరియు ఎదుగుదల ఆగిపోతుంది.",
+      "kn": "ಭತ್ತದ ಎಲೆಗಳ ಮೇಲೆ ತುಕ್ಕು ಬಣ್ಣದ ಕಂದು ಚುಕ್ಕೆಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ, ಗಿಡ ಗಿಡ್ಡದಾಗುತ್ತದೆ.",
+      "hi": "धान की पत्तियों पर कत्थई/भूरे रंग के धब्बे बन जाते हैं और कल्लों का फुटाव रुक जाता है।"
+    },
+    "causes": {
+      "en": "High soil alkalinity (pH > 7.5), prolonged waterlogging, or low native soil zinc.",
+      "te": "నేలలో క్షార గుణం ఎక్కువ ఉండటం మరియు జింక్ లభ్యత తక్కువగా ఉండటం వల్ల వస్తుంది.",
+      "kn": "ಮಣ್ಣಿನಲ್ಲಿ ಸತುವಿನ (Zinc) ಕೊರತೆ ಮತ್ತು ಅಧಿಕ ಕ್ಷಾರತೆ.",
+      "hi": "मिट्टी में जिंक की कमी और अत्यधिक क्षारीयता।"
+    },
+    "organicRemedy": {
+      "en": "Wood Ash & Compost Soil Conditioning: Broadcast 50kg sifted wood ash per acre along with decomposed cow dung manure. Wood ash naturally balances acidic/alkaline lockups and supplies trace micronutrients.",
+      "te": "కట్టెల బూడిద & పశువుల ఎరువు (సహజ పరిష్కారం): ఎకరాకు 40-50 కేజీల శుభ్రమైన కట్టెల బూడిదను బాగా మాగిన పశువుల ఎరువుతో కలిపి నేలపై చల్లండి. ఇది నేల క్షార గుణాన్ని తగ్గించి సూక్ష్మ పోషకాలను అందిస్తుంది.",
+      "kn": "ಕಟ್ಟಿಗೆ ಬೂದಿ ಮತ್ತು ಕೊಟ್ಟಿಗೆ ಗೊಬ್ಬರ (ಮನೆಮದ್ದು): ಮಣ್ಣಿನ ಪೋಷಕಾಂಶಗಳ ಸಮತೋಲನಕ್ಕೆ ಎಕರೆಗೆ 40-50 ಕೆಜಿ ಶುದ್ಧ ಬೂದಿಯನ್ನು ಕೊಟ್ಟಿಗೆ ಗೊಬ್ಬರದೊಂದಿಗೆ ಬೆರೆಸಿ ಮಣ್ಣಿಗೆ ಹಾಕಿ.",
+      "hi": "लकड़ी की राख और देशी गोबर खाद (पारंपरिक उपाय): प्रति एकड़ 40-50 किलो लकड़ी की राख को सड़ी हुई देशी खाद के साथ मिलाकर खेत में बिखेरें।"
+    },
+    "shopTreatment": {
+      "en": "Chelated Zinc (Zn-EDTA 12%) water soluble foliar fertilizer.",
+      "te": "చీలేటెడ్ జింక్ (Chelated Zinc EDTA 12%) సూక్ష్మ పోషక ఎరువు (షాప్ మందు).",
+      "kn": "ಚಿಲೇಟೆಡ್ ಜಿಂಕ್ (Zn-EDTA 12%) ಸೂಕ್ಷ್ಮ ಪೋಷಕಾಂಶ ಗೊಬ್ಬರ.",
+      "hi": "चिलेटेड जिंक (Zn-EDTA 12%) सूक्ष्म पोषक उर्वरक।"
+    },
+    "dosagePercentage": {
+      "en": "0.10% to 0.15% concentration (Mix 1g to 1.5g powder per 1 Liter of water. For 1 acre: 200g in 150-200 Liters water).",
+      "te": "0.10% నుండి 0.15% శాతం గాఢత (1 లీటరు నీటికి 1.0 నుండి 1.5 గ్రాములు. ఎకరాకు 200 గ్రాముల పొడిని 150-200 లీటర్ల నీటిలో కలిపి పిచికారీ చేయాలి).",
+      "kn": "0.10% ರಿಂದ 0.15% ಸಾಂದ್ರತೆ (1 ಲೀಟರ್ ನೀರಿಗೆ 1 ರಿಂದ 1.5 ಗ್ರಾಂ. ಎಕರೆಗೆ 200 ಗ್ರಾಂ ಬೆರೆಸಿ).",
+      "hi": "0.10% से 0.15% सांद्रता (प्रति लीटर 1 से 1.5 ग्राम। प्रति एकड़ 200 ग्राम पाउडर 150-200 लीटर पानी में घोलें)।"
+    },
+    "recommendedProductIds": ["prod-5", "prod-4"]
+  }
+]
