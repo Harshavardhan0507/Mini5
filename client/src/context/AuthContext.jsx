@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { loginUser, registerUser, verifyUserToken } from '../services/api';
 
 const AuthContext = createContext();
@@ -10,6 +10,13 @@ export function AuthProvider({ children }) {
   });
   const [token, setToken] = useState(() => localStorage.getItem('kisan_token') || null);
   const [loading, setLoading] = useState(true);
+
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem('kisan_token');
+    localStorage.removeItem('kisan_user');
+  };
 
   useEffect(() => {
     async function verify() {
@@ -51,13 +58,6 @@ export function AuthProvider({ children }) {
       localStorage.setItem('kisan_user', JSON.stringify(res.user));
     }
     return res;
-  };
-
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('kisan_token');
-    localStorage.removeItem('kisan_user');
   };
 
   return (

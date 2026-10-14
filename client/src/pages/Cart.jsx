@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -10,17 +10,14 @@ import {
   Minus,
   ShoppingBag,
   ArrowRight,
-  ShieldCheck,
-  Truck,
   CheckCircle,
-  Sparkles
+  AlertTriangle
 } from 'lucide-react';
 
 export default function Cart() {
   const { cart, removeFromCart, updateQuantity, clearCart, cartTotal } = useCart();
   const { user } = useAuth();
   const { t } = useLanguage();
-  const navigate = useNavigate();
 
   const [shippingDetails, setShippingDetails] = useState({
     name: user?.name || '',
@@ -31,18 +28,32 @@ export default function Cart() {
 
   const [loading, setLoading] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(null);
+  const [orderError, setOrderError] = useState('');
 
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
     if (cart.length === 0) return;
+    setOrderError('');
+
+    // Require login before placing order
+    if (!user) {
+      setOrderError('Please log in to place an order.');
+      return;
+    }
 
     setLoading(true);
     try {
+      // Send productId + quantity — server recomputes total from products.json
       const orderPayload = {
-        userId: user?.id || 'guest',
-        items: cart,
-        totalAmount: cartTotal,
-        shippingAddress: shippingDetails,
+        items: cart.map((item) => ({
+          productId: item.product.id,
+          quantity: item.quantity
+        })),
+        shippingAddress: {
+          name: shippingDetails.name,
+          phone: shippingDetails.phone,
+          address: shippingDetails.address
+        },
         paymentMethod: shippingDetails.paymentMethod
       };
 
@@ -50,10 +61,12 @@ export default function Cart() {
       if (res.success && res.order) {
         setOrderSuccess(res.order);
         clearCart();
+      } else {
+        setOrderError(res.message || 'Order failed. Please try again.');
       }
     } catch (err) {
       console.error(err);
-      alert('Error placing order. Please try again.');
+      setOrderError('Connection error. Please check the server is running and try again.');
     } finally {
       setLoading(false);
     }
@@ -70,10 +83,10 @@ export default function Cart() {
             {t.cart.successMsg}
           </h2>
           <p className="text-sm text-slate-600">
-            Order Reference ID: <strong className="text-agro-700 font-mono text-base">{orderSuccess.id}</strong>
+            Order Reference: <strong className="text-agro-700 font-mono text-base">{orderSuccess.id}</strong>
           </p>
           <p className="text-xs text-slate-500">
-            Payment Mode: {orderSuccess.paymentMethod} • Total: ₹{orderSuccess.totalAmount}
+            Payment: {orderSuccess.paymentMethod} • Total: ₹{orderSuccess.totalAmount}
           </p>
         </div>
 
@@ -149,15 +162,17 @@ export default function Cart() {
                   <button
                     onClick={() => updateQuantity(item.product.id, -1)}
                     className="p-1.5 hover:bg-slate-200 text-slate-600 transition"
+                    aria-label={`Decrease quantity of ${item.product.name}`}
                   >
                     <Minus className="w-3.5 h-3.5" />
                   </button>
-                  <span className="px-3 text-xs font-bold text-slate-800">
+                  <span className="px-3 text-xs font-bold text-slate-800" aria-label={`Quantity: ${item.quantity}`}>
                     {item.quantity}
                   </span>
                   <button
                     onClick={() => updateQuantity(item.product.id, 1)}
                     className="p-1.5 hover:bg-slate-200 text-slate-600 transition"
+                    aria-label={`Increase quantity of ${item.product.name}`}
                   >
                     <Plus className="w-3.5 h-3.5" />
                   </button>
@@ -166,7 +181,7 @@ export default function Cart() {
                 <button
                   onClick={() => removeFromCart(item.product.id)}
                   className="p-2 text-slate-400 hover:text-rose-600 transition"
-                  title="Remove item"
+                  aria-label={`Remove ${item.product.name} from cart`}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -182,12 +197,29 @@ export default function Cart() {
               {t.cart.checkoutTitle}
             </h3>
 
+            {/* Inline error message instead of alert() */}
+            {orderError && (
+              <div className="flex items-start gap-2 p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700">
+                <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                <span>{orderError}</span>
+              </div>
+            )}
+
+            {/* Login prompt if not authenticated */}
+            {!user && (
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800">
+                <strong>Login required</strong> to place an order.{' '}
+                <Link to="/login" className="underline font-bold">Log in here</Link>
+              </div>
+            )}
+
             <form onSubmit={handleCheckoutSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label htmlFor="shipping-name" className="block text-xs font-bold text-slate-700 mb-1">
                   {t.cart.farmerName} *
                 </label>
                 <input
+                  id="shipping-name"
                   type="text"
                   required
                   value={shippingDetails.name}
@@ -198,10 +230,11 @@ export default function Cart() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label htmlFor="shipping-phone" className="block text-xs font-bold text-slate-700 mb-1">
                   {t.cart.phone} *
                 </label>
                 <input
+                  id="shipping-phone"
                   type="tel"
                   required
                   value={shippingDetails.phone}
@@ -212,10 +245,11 @@ export default function Cart() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label htmlFor="shipping-address" className="block text-xs font-bold text-slate-700 mb-1">
                   {t.cart.address} *
                 </label>
                 <textarea
+                  id="shipping-address"
                   required
                   rows={2}
                   value={shippingDetails.address}
@@ -226,20 +260,17 @@ export default function Cart() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label htmlFor="payment-method" className="block text-xs font-bold text-slate-700 mb-1">
                   {t.cart.paymentMethod}
                 </label>
                 <select
+                  id="payment-method"
                   value={shippingDetails.paymentMethod}
                   onChange={(e) => setShippingDetails({ ...shippingDetails, paymentMethod: e.target.value })}
                   className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-agro-500"
                 >
-                  <option value="Cash on Delivery (Pay at Farm)">
-                    💵 {t.cart.cod}
-                  </option>
-                  <option value="UPI / Online Payment">
-                    📱 {t.cart.upi}
-                  </option>
+                  <option value="Cash on Delivery (Pay at Farm)">{t.cart.cod}</option>
+                  <option value="UPI / Online Payment">{t.cart.upi}</option>
                 </select>
               </div>
 
@@ -261,8 +292,8 @@ export default function Cart() {
 
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full py-3 bg-agro-600 hover:bg-agro-700 disabled:opacity-50 text-white rounded-xl font-bold text-sm shadow-md transition active:scale-98 flex items-center justify-center gap-2"
+                disabled={loading || !user}
+                className="w-full py-3 bg-agro-600 hover:bg-agro-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm shadow-md transition active:scale-98 flex items-center justify-center gap-2"
               >
                 <span>{loading ? 'Processing Order...' : t.cart.placeOrder}</span>
                 <ArrowRight className="w-4 h-4" />

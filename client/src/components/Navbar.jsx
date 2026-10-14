@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -173,7 +173,7 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-lg bg-agro-50 text-agro-700 font-bold"
           >
-            🤖 {t.nav.aiDoctor}
+            {t.nav.aiDoctor}
           </Link>
           {isAuthenticated ? (
             <>

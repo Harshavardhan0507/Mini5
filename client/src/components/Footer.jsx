@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Sprout, ShieldCheck, Truck, Headphones } from 'lucide-react';
 import { Link } from 'react-router-dom';

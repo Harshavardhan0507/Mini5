@@ -65,6 +65,7 @@ export const translations = {
       title: "Agricultural Fertilizer & Plant Care Store",
       subtitle: "Certified high-yield fertilizers, organic bio-compost, and fast-acting crop fungicides.",
       searchPlaceholder: "Search fertilizers by name, crop, or disease...",
+      searchBtn: "Search",
       all: "All Products",
       npk: "NPK & Macro Nutrients",
       organic: "Organic & Bio-Fertilizers",
@@ -74,6 +75,9 @@ export const translations = {
       viewDetails: "View Details",
       stock: "In Stock",
       dosage: "Dosage",
+      loading: "Loading certified fertilizer inventory...",
+      noResults: "No fertilizers found matching your query.",
+      resetFilters: "Reset Filters",
     },
     cart: {
       title: "Your Shopping Cart",

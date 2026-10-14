@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { fetchProducts } from '../services/api';
@@ -65,23 +65,24 @@ export default function Home() {
               {/* Regional language badge */}
               <div className="pt-2 flex items-center gap-2 text-xs text-slate-500 font-medium">
                 <Languages className="w-4 h-4 text-agro-600" />
-                <span>Available in: <strong>తెలుగు</strong>, <strong>ಕನ್ನಡ</strong>, <strong>हिंदी</strong>, & <strong>English</strong></span>
+                <span>Available in: <strong>తెలుగు</strong>, <strong>ಕನ್ನಡ</strong>, <strong>हिंदी</strong>, &amp; <strong>English</strong></span>
               </div>
             </div>
 
-            {/* Right Visual Card */}
+            {/* Right Visual Card — clearly labelled sample diagnosis */}
             <div className="lg:col-span-5 relative">
               <div className="relative mx-auto max-w-md bg-white rounded-3xl p-5 shadow-xl border border-slate-200">
                 <div className="relative rounded-2xl overflow-hidden aspect-4/3 mb-4">
                   <img
-                    src="https://images.unsplash.com/photo-1592417817098-8f3d69109853?auto=format&fit=crop&w=700&q=80"
-                    alt="Plant leaf scan"
+                    src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=700&q=80"
+                    alt="Sample crop leaf diagnosis"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-4">
                     <div className="text-white">
-                      <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-rose-500 rounded-md">
-                        Detected: Early Blight
+                      {/* Clearly labelled SAMPLE — not a real live diagnosis */}
+                      <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-slate-600 rounded-md">
+                        Sample Demo
                       </span>
                       <h4 className="text-sm font-bold mt-1">ఆకు మచ్చల తెగులు (Telugu Diagnosis)</h4>
                     </div>
@@ -91,11 +92,11 @@ export default function Home() {
                 <div className="space-y-3">
                   <div className="p-3 bg-agro-50 rounded-xl border border-agro-200/80">
                     <div className="flex items-center justify-between text-xs font-bold text-agro-900 mb-1">
-                      <span>Recommended Treatment:</span>
+                      <span>Sample Recommendation:</span>
                       <span className="text-agro-700">Copper Oxychloride 50% WP</span>
                     </div>
                     <p className="text-[11px] text-agro-800">
-                      Spray 2.5g/L every 10 days for rapid crop recovery.
+                      This is a demo card. Upload your own leaf photo for a real diagnosis.
                     </p>
                   </div>
 
@@ -103,7 +104,7 @@ export default function Home() {
                     to="/chatbot"
                     className="w-full py-2.5 bg-agro-600 hover:bg-agro-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition"
                   >
-                    <span>Test Your Plant Now</span>
+                    <span>Diagnose Your Plant</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -191,7 +192,7 @@ export default function Home() {
             to="/chatbot"
             className="px-8 py-4 bg-white text-agro-900 hover:bg-agro-50 active:scale-95 rounded-2xl font-black text-sm shadow-lg transition shrink-0"
           >
-            Launch AI Crop Doctor 🤖
+            Launch AI Crop Doctor
           </Link>
         </div>
       </section>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -29,7 +29,7 @@ export default function Login() {
       } else {
         setError(res.message || 'Failed to login. Please check your credentials.');
       }
-    } catch (err) {
+    } catch {
       setError('Connection error with the server. Please verify the backend is running.');
     } finally {
       setLoading(false);

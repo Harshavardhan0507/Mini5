@@ -1,66 +1,61 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { getUserByEmail, getUserById, insertUser } from '../db.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const usersFilePath = path.join(__dirname, '../data/users.json');
-
-const JWT_SECRET = process.env.JWT_SECRET || 'kisan_agro_secret_key_2026';
-
-// Helper to load users
-function getUsers() {
-  if (!fs.existsSync(usersFilePath)) {
-    fs.writeFileSync(usersFilePath, JSON.stringify([]));
-    return [];
+function getJwtSecret() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('FATAL: JWT_SECRET environment variable is missing.');
   }
-  return JSON.parse(fs.readFileSync(usersFilePath, 'utf-8'));
-}
-
-// Helper to save users
-function saveUsers(users) {
-  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+  return secret;
 }
 
 export async function register(req, res) {
   try {
     const { name, email, password, phone, farmLocation } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({ success: false, message: 'Name, email, and password are required' });
+
+    // Input validation
+    if (!name || typeof name !== 'string' || name.trim().length < 2) {
+      return res.status(400).json({ success: false, message: 'Valid farmer name is required (at least 2 characters).' });
+    }
+    if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ success: false, message: 'A valid email address is required.' });
+    }
+    if (!password || typeof password !== 'string' || password.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long.' });
     }
 
-    const users = getUsers();
-    const existingUser = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
-    if (existingUser) {
-      return res.status(400).json({ success: false, message: 'User already exists with this email' });
+    const normalizedEmail = email.trim().toLowerCase();
+    const existing = getUserByEmail.get(normalizedEmail);
+    if (existing) {
+      return res.status(409).json({ success: false, message: 'An account is already registered with this email.' });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = {
-      id: 'usr_' + Date.now(),
-      name,
-      email: email.toLowerCase(),
+    const userId = 'usr_' + Date.now().toString(36) + Math.random().toString(36).substring(2, 6);
+    const createdAt = new Date().toISOString();
+
+    insertUser.run({
+      id: userId,
+      name: name.trim(),
+      email: normalizedEmail,
       password: hashedPassword,
-      phone: phone || '',
-      farmLocation: farmLocation || 'Andhra Pradesh, India',
-      createdAt: new Date().toISOString()
-    };
+      phone: phone ? phone.trim() : '',
+      farmLocation: farmLocation ? farmLocation.trim() : 'Andhra Pradesh, India',
+      createdAt
+    });
 
-    users.push(newUser);
-    saveUsers(users);
+    const token = jwt.sign({ id: userId, email: normalizedEmail }, getJwtSecret(), { expiresIn: '7d' });
 
-    const token = jwt.sign({ id: newUser.id, email: newUser.email }, JWT_SECRET, { expiresIn: '7d' });
+    const newUser = getUserById.get(userId);
 
-    const { password: _, ...userWithoutPass } = newUser;
     return res.status(201).json({
       success: true,
       message: 'Registration successful',
       token,
-      user: userWithoutPass
+      user: newUser
     });
   } catch (error) {
     console.error('Registration error:', error);
@@ -72,28 +67,36 @@ export async function login(req, res) {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ success: false, message: 'Please provide email and password' });
+      return res.status(400).json({ success: false, message: 'Please provide both email and password.' });
     }
 
-    const users = getUsers();
-    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    const normalizedEmail = email.trim().toLowerCase();
+    const user = getUserByEmail.get(normalizedEmail);
     if (!user) {
-      return res.status(400).json({ success: false, message: 'Invalid email or password' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ success: false, message: 'Invalid email or password' });
+      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: user.id, email: user.email }, getJwtSecret(), { expiresIn: '7d' });
 
-    const { password: _, ...userWithoutPass } = user;
+    const userProfile = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      farmLocation: user.farm_location,
+      createdAt: user.created_at
+    };
+
     return res.json({
       success: true,
       message: 'Login successful',
       token,
-      user: userWithoutPass
+      user: userProfile
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -102,24 +105,9 @@ export async function login(req, res) {
 }
 
 export function getCurrentUser(req, res) {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ success: false, message: 'No authorization token provided' });
-    }
-
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
-
-    const users = getUsers();
-    const user = users.find((u) => u.id === decoded.id);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
-
-    const { password: _, ...userWithoutPass } = user;
-    return res.json({ success: true, user: userWithoutPass });
-  } catch (error) {
-    return res.status(401).json({ success: false, message: 'Invalid or expired token' });
+  // If requireAuth middleware is run, req.user is already set
+  if (req.user) {
+    return res.json({ success: true, user: req.user });
   }
+  return res.status(401).json({ success: false, message: 'Not authenticated' });
 }

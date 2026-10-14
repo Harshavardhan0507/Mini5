@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
@@ -16,15 +16,15 @@ import {
   Leaf,
   FlaskConical,
   Percent,
-  ArrowRight,
-  ShieldAlert
+  AlertTriangle
 } from 'lucide-react';
 
 export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
   const { language, setLanguage, t, supportedLanguages } = useLanguage();
   const { addToCart } = useCart();
 
-  const [messages, setMessages] = useState([
+  // Welcome message updates when language changes
+  const [messages, setMessages] = useState(() => [
     {
       id: 'welcome-1',
       sender: 'bot',
@@ -33,13 +33,23 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
       isWelcome: true
     }
   ]);
-
   const [inputText, setInputText] = useState(initialPrompt || '');
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
+
+  // Update welcome message text when language changes
+  useEffect(() => {
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.isWelcome
+          ? { ...m, text: t.chatbot.subtitle }
+          : m
+      )
+    );
+  }, [language, t.chatbot.subtitle]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -72,11 +82,10 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
     const textToSend = overrideText !== null ? overrideText : inputText;
     if (!textToSend.trim() && !selectedFile) return;
 
-    const userMessageId = 'msg-' + Date.now();
+    const userMessageId = 'msg-' + crypto.randomUUID();
     const currentPreview = previewUrl;
     const currentFile = selectedFile;
 
-    // Add user message to stream
     setMessages((prev) => [
       ...prev,
       {
@@ -106,10 +115,13 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
         setMessages((prev) => [
           ...prev,
           {
-            id: 'bot-' + Date.now(),
+            id: 'bot-' + crypto.randomUUID(),
             sender: 'bot',
             diagnosis: res.diagnosis,
             message: res.message,
+            disclaimer: res.disclaimer,
+            followUpQuestions: res.followUpQuestions,
+            matched: res.matched,
             recommendedProducts: res.recommendedProducts || [],
             engine: res.engine,
             imageUrl: res.imageUrl,
@@ -120,9 +132,9 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
         setMessages((prev) => [
           ...prev,
           {
-            id: 'bot-err-' + Date.now(),
+            id: 'bot-err-' + crypto.randomUUID(),
             sender: 'bot',
-            text: 'I could not process your request at this moment. Please try again or inspect your leaf picture.',
+            text: res?.message || 'I could not process your request at this moment. Please try again or describe the leaf symptoms in more detail.',
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
           }
         ]);
@@ -132,9 +144,9 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
       setMessages((prev) => [
         ...prev,
         {
-          id: 'bot-err-' + Date.now(),
+          id: 'bot-err-' + crypto.randomUUID(),
           sender: 'bot',
-          text: 'Error connecting to the Kisan AI diagnostic server. Make sure the backend server is running.',
+          text: 'Error connecting to the Kisan AI server. Make sure the backend server is running.',
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
@@ -151,13 +163,13 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
       <div className="px-5 py-3.5 bg-gradient-to-r from-agro-800 to-agro-700 text-white rounded-t-2xl flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center backdrop-blur-xs text-agro-200">
-            <Bot className="w-6 h-6" />
+            <Bot className="w-6 h-6" aria-hidden="true" />
           </div>
           <div>
             <h3 className="font-bold text-sm sm:text-base leading-tight flex items-center gap-2">
               {t.chatbot.title}
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-agro-500/30 text-agro-100 border border-agro-400/30">
-                <Sparkles className="w-3 h-3 mr-1 text-amber-300" /> Dual-Action
+                <Sparkles className="w-3 h-3 mr-1 text-amber-300" aria-hidden="true" /> Basic Symptom Matcher
               </span>
             </h3>
             <p className="text-xs text-agro-100/90 hidden sm:block">
@@ -166,10 +178,12 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
           </div>
         </div>
 
-        {/* Quick Language Switcher inside Chat */}
+        {/* Language Switcher inside Chat */}
         <div className="flex items-center gap-1.5 bg-black/20 backdrop-blur-xs px-2.5 py-1 rounded-xl text-xs">
-          <Globe className="w-3.5 h-3.5 text-agro-200" />
+          <Globe className="w-3.5 h-3.5 text-agro-200" aria-hidden="true" />
+          <label htmlFor="chat-lang-select" className="sr-only">Select response language</label>
           <select
+            id="chat-lang-select"
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
             className="bg-transparent text-white font-semibold text-xs focus:outline-none cursor-pointer"
@@ -184,7 +198,7 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
       </div>
 
       {/* Messages Stream */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-50/70">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-50/70" role="log" aria-live="polite" aria-label="Chat messages">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -193,7 +207,7 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
             }`}
           >
             {msg.sender === 'bot' && (
-              <div className="w-8 h-8 rounded-full bg-agro-100 border border-agro-300 flex items-center justify-center text-agro-700 shrink-0 mt-0.5">
+              <div className="w-8 h-8 rounded-full bg-agro-100 border border-agro-300 flex items-center justify-center text-agro-700 shrink-0 mt-0.5" aria-hidden="true">
                 <Bot className="w-4 h-4" />
               </div>
             )}
@@ -208,7 +222,7 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
               {/* Image sent by user */}
               {msg.image && (
                 <div className="mb-2.5 rounded-xl overflow-hidden border border-white/20 max-w-xs max-h-56">
-                  <img src={msg.image} alt="Crop sample" className="w-full h-full object-cover" />
+                  <img src={msg.image} alt="Uploaded crop leaf" className="w-full h-full object-cover" />
                 </div>
               )}
 
@@ -221,7 +235,7 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
               {msg.isWelcome && (
                 <div className="mt-3 pt-3 border-t border-slate-100">
                   <p className="text-xs font-semibold text-slate-500 mb-2">
-                    💡 Sample queries:
+                    Sample queries:
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {t.chatbot.sampleQueries.map((query, idx) => (
@@ -237,12 +251,30 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
                 </div>
               )}
 
+              {/* Follow-up questions if no match */}
+              {msg.followUpQuestions && msg.followUpQuestions.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-slate-100">
+                  <p className="text-xs font-semibold text-slate-500 mb-2">Quick answers:</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {msg.followUpQuestions.map((q, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleSend(q)}
+                        className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 px-2.5 py-1 rounded-lg transition text-left"
+                      >
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Rich Dual-Action Diagnosis Output */}
               {msg.diagnosis && (
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                     <span className="inline-flex items-center gap-1 text-xs font-bold text-agro-700 uppercase tracking-wide">
-                      <Sparkles className="w-3.5 h-3.5 text-agro-600" />
+                      <Sparkles className="w-3.5 h-3.5 text-agro-600" aria-hidden="true" />
                       {t.chatbot.diagnosisBadge}
                     </span>
                     <span
@@ -257,7 +289,7 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
                   </div>
 
                   <div>
-                    <h4 className="text-base sm:text-lg font-black text-slate-900 text-agro-900">
+                    <h4 className="text-base sm:text-lg font-black text-slate-900">
                       {msg.diagnosis.diseaseName}
                     </h4>
                   </div>
@@ -265,7 +297,7 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
                   {msg.diagnosis.symptoms && (
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-xs">
                       <span className="font-bold text-slate-700 block mb-0.5">
-                        🔍 {t.chatbot.symptoms}:
+                        {t.chatbot.symptoms}:
                       </span>
                       <p className="text-slate-600 leading-relaxed">
                         {msg.diagnosis.symptoms}
@@ -276,28 +308,28 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
                   {/* SOLUTION 1: Organic Solution / Home Remedy */}
                   <div className="bg-emerald-50/90 p-3.5 rounded-xl border border-emerald-200 text-xs space-y-1">
                     <div className="flex items-center gap-1.5 text-emerald-900 font-bold text-xs uppercase tracking-wide">
-                      <Leaf className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <Leaf className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
                       <span>{t.chatbot.organicTitle}</span>
                     </div>
                     <p className="text-emerald-900/90 leading-relaxed font-medium">
-                      {msg.diagnosis.organicRemedy || msg.diagnosis.treatment}
+                      {msg.diagnosis.organicRemedy}
                     </p>
                   </div>
 
                   {/* SOLUTION 2: Shop Fertilizer & Percentage Concentration */}
                   <div className="bg-blue-50/90 p-3.5 rounded-xl border border-blue-200 text-xs space-y-2">
                     <div className="flex items-center gap-1.5 text-blue-950 font-bold text-xs uppercase tracking-wide">
-                      <FlaskConical className="w-4 h-4 text-blue-600 shrink-0" />
+                      <FlaskConical className="w-4 h-4 text-blue-600 shrink-0" aria-hidden="true" />
                       <span>{t.chatbot.shopTitle}</span>
                     </div>
                     <p className="text-blue-900 font-semibold leading-relaxed">
-                      {msg.diagnosis.shopTreatment || msg.diagnosis.treatment}
+                      {msg.diagnosis.shopTreatment}
                     </p>
 
-                    {/* Exact Percentage / Concentration Badge */}
+                    {/* Dosage Badge */}
                     {msg.diagnosis.dosagePercentage && (
                       <div className="bg-white p-2.5 rounded-lg border border-blue-300 shadow-2xs flex items-start gap-2">
-                        <Percent className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                        <Percent className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <span className="font-bold text-slate-800 text-[11px] block">
                             {t.chatbot.dosageTitle}:
@@ -310,12 +342,20 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
                     )}
                   </div>
 
-                  {/* Recommended Products Carousel / List */}
+                  {/* Dosage Disclaimer */}
+                  {msg.disclaimer && (
+                    <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-[11px] text-amber-800 leading-relaxed">
+                      <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-500" aria-hidden="true" />
+                      <span>{msg.disclaimer}</span>
+                    </div>
+                  )}
+
+                  {/* Recommended Products */}
                   {msg.recommendedProducts && msg.recommendedProducts.length > 0 && (
                     <div className="pt-2">
                       <div className="flex items-center justify-between mb-2">
                         <h5 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                          <ShoppingCart className="w-3.5 h-3.5 text-agro-600" />
+                          <ShoppingCart className="w-3.5 h-3.5 text-agro-600" aria-hidden="true" />
                           {t.chatbot.recommendedHeader}:
                         </h5>
                         <Link
@@ -341,17 +381,14 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
                               <h6 className="text-xs font-bold text-slate-900 truncate">
                                 {prod.name}
                               </h6>
-                              <div className="text-[11px] text-slate-500">
-                                {prod.weight}
-                              </div>
-                              <div className="text-xs font-black text-slate-800 mt-0.5">
-                                ₹{prod.price}
-                              </div>
+                              <div className="text-[11px] text-slate-500">{prod.weight}</div>
+                              <div className="text-xs font-black text-slate-800 mt-0.5">₹{prod.price}</div>
                               <button
                                 onClick={() => addToCart(prod)}
                                 className="mt-1 w-full flex items-center justify-center gap-1 px-2 py-1 bg-agro-600 hover:bg-agro-700 text-white rounded-lg text-[10px] font-bold shadow-xs active:scale-95 transition"
+                                aria-label={`Add ${prod.name} to cart`}
                               >
-                                <ShoppingCart className="w-3 h-3" />
+                                <ShoppingCart className="w-3 h-3" aria-hidden="true" />
                                 <span>{t.chatbot.addToCart}</span>
                               </button>
                             </div>
@@ -367,13 +404,14 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
                 className={`text-[10px] mt-1.5 text-right ${
                   msg.sender === 'user' ? 'text-agro-200' : 'text-slate-400'
                 }`}
+                aria-label={`Sent at ${msg.time}`}
               >
                 {msg.time}
               </div>
             </div>
 
             {msg.sender === 'user' && (
-              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 shrink-0 mt-0.5">
+              <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 shrink-0 mt-0.5" aria-hidden="true">
                 <User className="w-4 h-4" />
               </div>
             )}
@@ -382,12 +420,12 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
 
         {/* Loading Spinner */}
         {loading && (
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-agro-100 border border-agro-300 flex items-center justify-center text-agro-700 shrink-0">
+          <div className="flex items-start gap-3" aria-live="polite">
+            <div className="w-8 h-8 rounded-full bg-agro-100 border border-agro-300 flex items-center justify-center text-agro-700 shrink-0" aria-hidden="true">
               <Bot className="w-4 h-4" />
             </div>
             <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-xs p-4 shadow-xs flex items-center gap-3">
-              <RefreshCw className="w-4 h-4 text-agro-600 animate-spin" />
+              <RefreshCw className="w-4 h-4 text-agro-600 animate-spin" aria-hidden="true" />
               <div className="text-xs text-slate-600 font-medium">
                 {t.chatbot.analyzing} ({currentLangObj.native})
               </div>
@@ -404,7 +442,7 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
           <div className="flex items-center gap-2">
             <img
               src={previewUrl}
-              alt="Leaf to upload"
+              alt="Selected leaf to upload"
               className="w-10 h-10 rounded-lg object-cover border border-agro-300"
             />
             <div>
@@ -419,6 +457,7 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
           <button
             onClick={removeSelectedFile}
             className="p-1 hover:bg-agro-200 text-agro-700 rounded-lg transition"
+            aria-label="Remove selected image"
           >
             <X className="w-4 h-4" />
           </button>
@@ -442,22 +481,27 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
             accept="image/png, image/jpeg, image/jpg, image/webp"
             className="hidden"
             id="leaf-file-input"
+            aria-label="Upload leaf photo"
           />
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
             className="p-2.5 text-slate-500 hover:text-agro-600 hover:bg-agro-50 border border-slate-300 rounded-xl transition shrink-0"
-            title="Upload leaf photo"
+            aria-label="Upload a leaf photo for diagnosis"
           >
-            <Upload className="w-5 h-5" />
+            <Upload className="w-5 h-5" aria-hidden="true" />
           </button>
 
           {/* Text Input */}
+          <label htmlFor="chat-input" className="sr-only">
+            {selectedFile ? 'Add details about the leaf photo' : t.chatbot.askPlaceholder}
+          </label>
           <input
+            id="chat-input"
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder={selectedFile ? `Add details about this leaf photo...` : t.chatbot.askPlaceholder}
+            placeholder={selectedFile ? 'Add details about this leaf photo...' : t.chatbot.askPlaceholder}
             className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-agro-500 focus:bg-white transition"
           />
 
@@ -466,8 +510,9 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
             type="submit"
             disabled={loading || (!inputText.trim() && !selectedFile)}
             className="px-4 py-2.5 bg-agro-600 hover:bg-agro-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm flex items-center gap-1.5 shadow-sm transition active:scale-95 shrink-0"
+            aria-label="Send message"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-4 h-4" aria-hidden="true" />
             <span className="hidden sm:inline">{t.chatbot.sendBtn}</span>
           </button>
         </form>

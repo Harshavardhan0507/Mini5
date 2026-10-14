@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -31,7 +31,7 @@ export default function Register() {
       } else {
         setError(res.message || 'Failed to register. Please check details.');
       }
-    } catch (err) {
+    } catch {
       setError('Connection error with the server.');
     } finally {
       setLoading(false);

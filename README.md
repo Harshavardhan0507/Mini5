@@ -71,7 +71,8 @@ The application is preloaded with an intelligent Agricultural Diagnostic Knowled
 
 ```
 Mini5/
-├── client/                     # React + Vite + Tailwind CSS frontend
+├── client/                     # React 19 + Vite + Tailwind CSS frontend
+│   ├── .env.example            # Client environment variable template
 │   ├── src/
 │   │   ├── components/         # Navbar, Footer, LanguageSelector, ChatbotWindow, ProductCard
 │   │   ├── context/            # AuthContext, CartContext, LanguageContext
@@ -80,10 +81,14 @@ Mini5/
 │   │   ├── services/           # api.js
 │   │   └── App.jsx             # React router configuration
 ├── server/                     # Node.js + Express backend
-│   ├── data/                   # products.json, localizedDiseases.json, users.json, orders.json
+│   ├── .env.example            # Server environment configuration template
+│   ├── db.js                   # SQLite (better-sqlite3) with WAL mode & transactions
+│   ├── seed.js                 # Automatic database seeding script
+│   ├── middleware/             # auth.js (JWT authentication & verification middleware)
+│   ├── data/                   # products.json, localizedDiseases.json, kisan.sqlite
 │   ├── routes/                 # auth.js, products.js, chatbot.js, orders.js
 │   ├── controllers/            # diagnosisController.js, authController.js
-│   ├── uploads/                # Stored leaf images
-│   └── server.js               # Express application entry point
+│   ├── uploads/                # Leaf photos stored during diagnosis
+│   └── server.js               # Express application entry point (Helmet, CORS, rate limits)
 └── README.md
 ```

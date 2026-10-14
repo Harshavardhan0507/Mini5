@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { translations } from '../data/translations';
 
 const LanguageContext = createContext();
 
 export const SUPPORTED_LANGUAGES = [
-  { code: 'en', label: 'English', native: 'English' },
-  { code: 'te', label: 'Telugu', native: 'తెలుగు' },
-  { code: 'kn', label: 'Kannada', native: 'ಕನ್ನಡ' },
-  { code: 'hi', label: 'Hindi', native: 'हिंदी' }
+  { code: 'en', label: 'English', native: 'English', htmlLang: 'en' },
+  { code: 'te', label: 'Telugu', native: 'తెలుగు', htmlLang: 'te' },
+  { code: 'kn', label: 'Kannada', native: 'ಕನ್ನಡ', htmlLang: 'kn' },
+  { code: 'hi', label: 'Hindi', native: 'हिंदी', htmlLang: 'hi' }
 ];
 
 export function LanguageProvider({ children }) {
@@ -18,8 +18,12 @@ export function LanguageProvider({ children }) {
   const setLanguage = (langCode) => {
     setLanguageState(langCode);
     localStorage.setItem('kisan_lang', langCode);
+    // Update document lang attribute for proper font rendering of regional scripts
+    const langEntry = SUPPORTED_LANGUAGES.find((l) => l.code === langCode);
+    document.documentElement.lang = langEntry?.htmlLang ?? 'en';
   };
 
+  // Set initial lang on mount
   const t = translations[language] || translations.en;
 
   return (

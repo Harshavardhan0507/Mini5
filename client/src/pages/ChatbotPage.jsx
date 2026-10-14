@@ -1,11 +1,7 @@
-import React from 'react';
-import { useLanguage } from '../context/LanguageContext';
 import ChatbotWindow from '../components/ChatbotWindow';
 import { Camera, Sun, Focus, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function ChatbotPage() {
-  const { t, language } = useLanguage();
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
