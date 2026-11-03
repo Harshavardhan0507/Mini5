@@ -98,3 +98,8 @@ export async function fetchDiagnosisHistory() {
   });
   return res.json();
 }
+
+export async function fetchChatStatus() {
+  const res = await fetch(`${API_BASE}/chat/status`);
+  return res.json();
+}

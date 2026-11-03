@@ -56,14 +56,36 @@ For quick testing without creating a new account:
 
 ---
 
-## 🤖 Optional: Live Gemini Vision API Setup
-The application is preloaded with an intelligent Agricultural Diagnostic Knowledge Base and works 100% offline out-of-the-box. To optionally enable live multimodal AI vision through Google Gemini:
-1. Open `server/.env`
-2. Add your API key:
+## 🤖 Live Gemini Multimodal AI Setup & Domain Grounding
+
+The application features **Google Gemini Multimodal AI** for analyzing uploaded crop leaf photos and farmer text descriptions, backed by a comprehensive **15-Disease Agricultural Diagnostic Knowledge Base** that also runs offline.
+
+### 1. Connect Your Gemini API Key
+1. Get a free Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Open [`server/.env`](file:///C:/Users/Kolli%20Harshavardhan/Documents/Mini5/server/.env) in your editor.
+3. Add your API key:
    ```env
-   GEMINI_API_KEY=your_gemini_api_key_here
+   GEMINI_API_KEY=AIzaSyYourActualApiKeyHere
+   GEMINI_MODEL=gemini-1.5-flash
    ```
-3. Restart the server.
+4. Restart your backend server (`npm start`).
+5. The Chatbot badge will instantly switch to **✨ Gemini AI Vision**.
+
+### 2. How the AI is Guided & Grounded
+- **Multimodal Visual Analysis**: Accepts leaf photos (JPG, PNG, WEBP), checks if the image actually shows a plant/leaf, and accurately pinpoints the disease, pest, or nutrient deficiency.
+- **Farmer Query Context**: Combines user notes and symptom descriptions with the photo.
+- **Store Inventory Grounding**: Feeds the current [`products.json`](file:///C:/Users/Kolli%20Harshavardhan/Documents/Mini5/server/data/products.json) catalog into Gemini, allowing the model to recommend exact in-stock products with 1-click **Add to Cart**.
+- **Dual-Action Solutions**:
+  - **🌿 Organic Solution**: Natural home remedies (Neem oil, sour buttermilk, Trichoderma, wood ash).
+  - **🧪 Shop Treatment**: Certified chemical fertilizers/fungicides/insecticides.
+  - **🎯 Exact Dosage**: Precise dilution rates (e.g., 0.25% concentration / 2.5g per Liter / per-acre calculations).
+- **Multilingual Native Scripts**: Returns diagnoses in Telugu (తెలుగు), Kannada (ಕನ್ನಡ), Hindi (हिंदी), and English.
+- **Model Fallback**: Automatically tries fallback candidates (`gemini-1.5-flash`, `gemini-2.0-flash`, `gemini-2.5-flash`, `gemini-1.5-pro`) to ensure high availability.
+
+### 3. Adding Custom Diseases & Products
+You can expand the diagnostic library anytime:
+- **Diseases**: Add new entries to [`server/data/localizedDiseases.json`](file:///C:/Users/Kolli%20Harshavardhan/Documents/Mini5/server/data/localizedDiseases.json) with symptom keywords, severity, English/Telugu/Kannada/Hindi remedies, and matching `recommendedProductIds`.
+- **Products**: Add new items to [`server/data/products.json`](file:///C:/Users/Kolli%20Harshavardhan/Documents/Mini5/server/data/products.json) with pricing, dosage, target problems, and category.
 
 ---
 

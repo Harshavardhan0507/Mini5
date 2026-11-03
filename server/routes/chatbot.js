@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import rateLimit from 'express-rate-limit';
-import { diagnoseCrop, chatMessage, getDiagnosisHistory } from '../controllers/diagnosisController.js';
+import { diagnoseCrop, chatMessage, getDiagnosisHistory, getChatStatus } from '../controllers/diagnosisController.js';
 import { requireAuth, optionalAuth } from '../middleware/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -91,5 +91,8 @@ router.post('/message', chatLimiter, optionalAuth, chatMessage);
 
 // Endpoint for retrieving logged-in user's diagnosis history
 router.get('/history', requireAuth, getDiagnosisHistory);
+
+// Endpoint for diagnostic engine & AI status check
+router.get('/status', getChatStatus);
 
 export default router;

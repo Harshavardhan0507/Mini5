@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
-import { diagnoseCropWithPhoto, sendChatMessage } from '../services/api';
+import { diagnoseCropWithPhoto, sendChatMessage, fetchChatStatus } from '../services/api';
 import {
   Send,
   Upload,
@@ -37,8 +37,19 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [aiStatus, setAiStatus] = useState(null);
   const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    fetchChatStatus()
+      .then((data) => {
+        if (data && data.success) {
+          setAiStatus(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Update welcome message text when language changes
   useEffect(() => {
@@ -168,8 +179,16 @@ export default function ChatbotWindow({ initialPrompt = '', compact = false }) {
           <div>
             <h3 className="font-bold text-sm sm:text-base leading-tight flex items-center gap-2">
               {t.chatbot.title}
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-agro-500/30 text-agro-100 border border-agro-400/30">
-                <Sparkles className="w-3 h-3 mr-1 text-amber-300" aria-hidden="true" /> Basic Symptom Matcher
+              <span
+                className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
+                  aiStatus?.geminiConfigured
+                    ? 'bg-emerald-500/30 text-emerald-100 border-emerald-400/40'
+                    : 'bg-agro-500/30 text-agro-100 border-agro-400/30'
+                }`}
+                title={aiStatus?.geminiConfigured ? `Active Model: ${aiStatus.preferredModel}` : '15 Core Crop Diseases & Treatments Loaded'}
+              >
+                <Sparkles className="w-3 h-3 mr-1 text-amber-300" aria-hidden="true" />
+                {aiStatus?.geminiConfigured ? 'Gemini AI Vision' : 'Kisan Knowledge Base'}
               </span>
             </h3>
             <p className="text-xs text-agro-100/90 hidden sm:block">
