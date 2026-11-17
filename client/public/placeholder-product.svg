@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" role="img" aria-label="Product image unavailable">
+  <rect width="600" height="450" fill="#f1f5f9"/>
+  <g fill="none" stroke="#94a3b8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M300 330c0-70 30-120 90-150 15 70-10 130-90 150z"/>
+    <path d="M300 330c0-70-30-120-90-150-15 70 10 130 90 150z"/>
+    <path d="M300 330V210"/>
+  </g>
+  <text x="300" y="390" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#64748b">
+    Product image coming soon
+  </text>
+</svg>
