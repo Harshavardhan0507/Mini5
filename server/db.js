@@ -1,4 +1,3 @@
-import Database from 'better-sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
@@ -6,13 +5,96 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dataDir = path.join(__dirname, 'data');
+const isVercel = Boolean(process.env.VERCEL);
+const defaultDataDir = path.join(__dirname, 'data');
+const dataDir = process.env.DATA_DIR || (isVercel ? '/tmp/data' : defaultDataDir);
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
-const dbPath = path.join(dataDir, 'kisan.sqlite');
-const db = new Database(dbPath);
+const dbPath = process.env.SQLITE_DB_PATH || path.join(dataDir, 'kisan.sqlite');
+
+// On Vercel's ephemeral /tmp filesystem, initialize with pre-seeded database file if available
+if (isVercel && !fs.existsSync(dbPath)) {
+  const bundledDbPath = path.join(defaultDataDir, 'kisan.sqlite');
+  if (fs.existsSync(bundledDbPath)) {
+    try {
+      fs.copyFileSync(bundledDbPath, dbPath);
+    } catch (copyErr) {
+      console.warn('Could not copy bundled sqlite database to /tmp:', copyErr.message);
+    }
+  }
+}
+
+let db;
+try {
+  const { default: Database } = await import('better-sqlite3');
+  db = new Database(dbPath);
+} catch (err) {
+  // If better-sqlite3 native binary cannot be loaded (e.g. Windows Application Control policy ERR_DLOPEN_FAILED
+  // or unsupported prebuilds), fallback to Node.js 22+ built-in node:sqlite module seamlessly.
+  const { DatabaseSync } = await import('node:sqlite');
+  const nativeDb = new DatabaseSync(dbPath);
+
+  function sanitizeParam(val) {
+    return val === undefined ? null : val;
+  }
+  function sanitizeArgs(args) {
+    if (args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+      if (Array.isArray(args[0])) {
+        return args[0].map(sanitizeParam);
+      }
+      const cleanObj = {};
+      for (const key of Object.keys(args[0])) {
+        const val = args[0][key];
+        cleanObj[key] = val === undefined ? null : val;
+      }
+      return [cleanObj];
+    }
+    return args.map(sanitizeParam);
+  }
+
+  const origPrepare = nativeDb.prepare.bind(nativeDb);
+  nativeDb.prepare = function (sql) {
+    const stmt = origPrepare(sql);
+    return {
+      run(...args) {
+        return stmt.run(...sanitizeArgs(args));
+      },
+      get(...args) {
+        return stmt.get(...sanitizeArgs(args));
+      },
+      all(...args) {
+        return stmt.all(...sanitizeArgs(args));
+      }
+    };
+  };
+
+  nativeDb.pragma = function (sql) {
+    if (sql.includes('=')) {
+      return nativeDb.exec(`PRAGMA ${sql};`);
+    }
+    return nativeDb.prepare(`PRAGMA ${sql}`).all();
+  };
+
+  nativeDb.transaction = function (fn) {
+    return (...args) => {
+      nativeDb.exec('BEGIN');
+      try {
+        const result = fn(...args);
+        nativeDb.exec('COMMIT');
+        return result;
+      } catch (e) {
+        try {
+          nativeDb.exec('ROLLBACK');
+        } catch (_) {}
+        throw e;
+      }
+    };
+  };
+
+  db = nativeDb;
+}
 
 // Enable WAL mode for high concurrency and reliability
 db.pragma('journal_mode = WAL');

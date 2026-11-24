@@ -4,4 +4,16 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: process.env.SERVER_URL || 'http://localhost:5000',
+        changeOrigin: true
+      },
+      '/uploads': {
+        target: process.env.SERVER_URL || 'http://localhost:5000',
+        changeOrigin: true
+      }
+    }
+  }
 })

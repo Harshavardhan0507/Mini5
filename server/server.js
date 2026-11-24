@@ -10,12 +10,17 @@ import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
-// Fail fast on startup if critical security environment variables are missing
+// Fail fast on startup if critical security environment variables are missing (in production non-Vercel)
 if (!process.env.JWT_SECRET) {
-  console.error('\n❌ FATAL CONFIGURATION ERROR:');
-  console.error('The JWT_SECRET environment variable is not defined.');
-  console.error('Please create a server/.env file with a strong JWT_SECRET (e.g. JWT_SECRET=your_secure_secret_key).\n');
-  process.exit(1);
+  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
+    console.error('\n❌ FATAL CONFIGURATION ERROR:');
+    console.error('The JWT_SECRET environment variable is not defined.');
+    console.error('Please create a server/.env file with a strong JWT_SECRET (e.g. JWT_SECRET=your_secure_secret_key).\n');
+    process.exit(1);
+  } else {
+    console.warn('⚠️ WARNING: JWT_SECRET is not set. Using temporary fallback. Configure JWT_SECRET in your environment or Vercel project settings.');
+    process.env.JWT_SECRET = 'kisan_temp_jwt_secret_please_set_in_production_environment_2026';
+  }
 }
 
 import authRoutes from './routes/auth.js';
@@ -59,7 +64,7 @@ app.use(
   })
 );
 
-// Restrict browser origins to the configured frontend(s)
+// Restrict browser origins to the configured frontend(s) or same-origin / Vercel preview domains
 app.use(
   cors({
     origin(origin, callback) {
@@ -67,6 +72,14 @@ app.use(
       if (allowedOrigins.includes(origin)) return callback(null, true);
       if (process.env.NODE_ENV !== 'production' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
         return callback(null, true);
+      }
+      if (process.env.VERCEL) {
+        try {
+          const originUrl = new URL(origin);
+          if (originUrl.hostname.endsWith('.vercel.app') || originUrl.hostname === 'localhost') {
+            return callback(null, true);
+          }
+        } catch (_) {}
       }
       return callback(null, false);
     }
@@ -78,7 +91,11 @@ app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 // Serve uploaded plant photos statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'), { fallthrough: true, maxAge: '7d' }));
+const uploadsDir = process.env.UPLOADS_DIR || (process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, 'uploads'));
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+app.use('/uploads', express.static(uploadsDir, { fallthrough: true, maxAge: '7d' }));
 
 // Login and registration rate limiter to prevent brute force
 const authLimiter = rateLimit({
@@ -141,21 +158,26 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Ensure database tables and initial demo data are ready, then start server
-seedDatabase()
-  .then(() => {
-    const mailer = getMailerStatus();
-    app.listen(PORT, () => {
-      console.log(`🌾 KisanAgro Backend Server running on http://localhost:${PORT}`);
-      console.log(`🔒 Security active: Helmet headers, CORS allowlist, Rate limiting, SQLite persistence`);
-      console.log(
-        mailer.configured
-          ? `📧 New orders are emailed to ${mailer.recipient} via ${mailer.host}`
-          : `📭 SMTP not configured — orders are saved and recorded in the email log (target ${mailer.recipient})`
-      );
-    });
-  })
-  .catch((seedErr) => {
-    console.error('Database initialization failed:', seedErr);
-    process.exit(1);
+// Initialize database tables and initial demo data
+try {
+  await seedDatabase();
+} catch (seedErr) {
+  console.error('Database initialization warning/failure:', seedErr);
+}
+
+// In traditional hosting / local dev, listen on the configured port.
+// On Vercel, the default exported Express app is managed by Vercel serverless / fluid compute.
+if (!process.env.VERCEL) {
+  const mailer = getMailerStatus();
+  app.listen(PORT, () => {
+    console.log(`🌾 KisanAgro Backend Server running on http://localhost:${PORT}`);
+    console.log(`🔒 Security active: Helmet headers, CORS allowlist, Rate limiting, SQLite persistence`);
+    console.log(
+      mailer.configured
+        ? `📧 New orders are emailed to ${mailer.recipient} via ${mailer.host}`
+        : `📭 SMTP not configured — orders are saved and recorded in the email log (target ${mailer.recipient})`
+    );
   });
+}
+
+export default app;
